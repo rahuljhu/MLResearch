@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import math
 from typing import Optional
-from model_utils import MultiHeadAttention
+from .model_utils import MultiHeadAttention
 
 class EncoderBlock(nn.Module):
     def __init__(self, d_model: int, num_heads: int, d_ff: int, dropout: float = 0.1):

@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import math
-from model_utils import MultiHeadAttention
+from .model_utils import MultiHeadAttention
 
 
 class DecoderBlock(nn.Module):

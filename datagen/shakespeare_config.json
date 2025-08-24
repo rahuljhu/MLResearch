@@ -1,0 +1,12 @@
+{
+  "type": "decoder",
+  "books": [1533, 1134, 1532, 1135, 1130],
+  "max_books": 5,
+  "output_file": "shakespeare_dataset.json",
+  "description": "High-quality dataset from Shakespeare's major works",
+  "preprocessing": {
+    "min_sentence_length": 30,
+    "max_sentence_length": 800,
+    "target_paragraph_length": 200
+  }
+}

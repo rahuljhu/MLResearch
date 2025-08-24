@@ -1,0 +1,12 @@
+{
+  "type": "decoder", 
+  "books": [1342, 74, 76, 11, 174, 2701, 84, 345, 1661],
+  "max_books": 9,
+  "output_file": "classics_dataset.json",
+  "description": "High-quality dataset from classic literature including Austen, Twain, Carroll, Wilde, Melville, Shelley, Stoker, and Doyle",
+  "preprocessing": {
+    "min_sentence_length": 25,
+    "max_sentence_length": 1000,
+    "target_paragraph_length": 180
+  }
+}

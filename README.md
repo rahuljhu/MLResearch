@@ -2,48 +2,68 @@
 
 A PyTorch implementation of transformer-based language models with encoder-decoder architecture and custom tokenization.
 
+## Project Structure
+
+```
+MLResearch/
+├── models/               # Model architectures
+│   ├── encoder.py       # Encoder components
+│   ├── decoder.py       # Decoder components  
+│   ├── encoder_decoder.py # Combined encoder-decoder
+│   └── model_utils.py   # Attention mechanisms
+├── train/               # Training utilities
+│   ├── train.py        # Main training script
+│   ├── config_decoder.json # Decoder training config
+│   └── config_encoder_decoder.json # Encoder-decoder config
+├── tokenizer.py        # BPE tokenizer implementation
+└── device_utils.py     # Device management utilities
+```
+
 ## Components
 
-### Encoder (`encoder.py`)
-- **EncoderBlock**: Self-attention block with layer normalization and feed-forward layers
-- **LLMEncoder**: Multi-layer encoder with token and positional embeddings
-- Supports attention masking for padding tokens
-- Configurable parameters: vocabulary size, model dimension, number of layers/heads
-
-### Decoder (`decoder.py`) 
-- **DecoderBlock**: Causal self-attention block for autoregressive generation
-- **LLMDecoder**: Complete decoder with text generation capabilities
-- Includes `generate()` method for autoregressive text generation
-- Uses causal masking to prevent attention to future tokens
-
-### Model Utils (`model_utils.py`)
+### Models (`models/`)
+- **EncoderBlock/LLMEncoder**: Self-attention encoder with positional embeddings
+- **DecoderBlock/LLMDecoder**: Causal decoder with text generation capabilities  
+- **EncoderDecoderModel**: Cross-attention transformer for sequence-to-sequence tasks
 - **MultiHeadAttention**: Scaled dot-product attention mechanism
-- Supports multiple attention heads with proper dimensionality scaling
-- Optional attention masking for padding and causal attention
 
-### Tokenizer (`tokenizer.py`)
-- **Tokenizer**: Byte-Pair Encoding (BPE) implementation
-- Special tokens: `<PAD>`, `<BOS>`, `<EOS>`, `<UNK>`
-- Training on text corpora with configurable vocabulary size
-- Save/load functionality for trained tokenizers
+### Training (`train/`)
+- **train.py**: Configuration-based training script supporting both model types
+- **config_*.json**: Example training configurations with hyperparameters
+
+### Utilities
+- **Tokenizer**: BPE implementation with special tokens (`<PAD>`, `<BOS>`, `<EOS>`, `<UNK>`)
+- **DeviceManager**: Automatic device selection (CUDA/MPS/CPU) and tensor management
 
 ## Usage
 
+### Training Models
+```bash
+# Train decoder-only model
+cd train
+python train.py --config config_decoder.json
+
+# Train encoder-decoder model  
+python train.py --config config_encoder_decoder.json
+```
+
+### Using Models Programmatically
 ```python
+from models import LLMDecoder, EncoderDecoderModel
+from tokenizer import Tokenizer
+
 # Initialize components
 vocab_size = 50000
-encoder = LLMEncoder(vocab_size=vocab_size)
 decoder = LLMDecoder(vocab_size=vocab_size)
+encoder_decoder = EncoderDecoderModel(vocab_size=vocab_size)
 tokenizer = Tokenizer(vocab_size=vocab_size)
 
 # Train tokenizer
 texts = ["Your training texts here"]
 tokenizer.train(texts)
 
-# Encode text
+# Generate text with decoder
 input_ids = tokenizer.encode("Hello world!")
-
-# Generate text
 generated = decoder.generate(input_ids.unsqueeze(0), max_length=50)
 output_text = tokenizer.decode(generated[0])
 ```

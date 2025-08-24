@@ -1,0 +1,36 @@
+{
+  "model": {
+    "module_path": "models.decoder",
+    "class_name": "LLMDecoder",
+    "params": {
+      "vocab_size": 50000,
+      "d_model": 512,
+      "num_layers": 6,
+      "num_heads": 8,
+      "d_ff": 2048,
+      "dropout": 0.1
+    }
+  },
+  "data": {
+    "file_path": "data/train_texts.json",
+    "format": "auto",
+    "batch_size": 16,
+    "shuffle": true,
+    "num_workers": 0
+  },
+  "training": {
+    "epochs": 10,
+    "learning_rate": 1e-4,
+    "optimizer": "Adam",
+    "optimizer_params": {
+      "weight_decay": 1e-5
+    },
+    "loss_function": "CrossEntropyLoss",
+    "loss_params": {
+      "ignore_index": 0
+    },
+    "device": "auto",
+    "checkpoint_path": "checkpoints/decoder_model.pt",
+    "save_interval": 5
+  }
+}
